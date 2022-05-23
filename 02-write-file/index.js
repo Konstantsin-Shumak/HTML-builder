@@ -1,18 +1,14 @@
-let fs = require("fs");
-let readline = require("readline");
+const path = require('path');
+const fs = require('fs');
+const { stdin, stdout } = process;
+const stream = fs.createWriteStream(path.join(__dirname, 'text.txt'), 'utf-8');
 
-let rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
+stdout.write('What you want yo write?\n');
+stdin.on('data', data => {
+    if (data.toString().trim() === 'exit') process.exit();
+    stream.write(data);
 });
-
-rl.question("What do you want to write?", function (text) {
-    fs.open("./02-write-file/text.txt", "w", (err) => {
-        if (err) throw err;
-    });
-
-    fs.writeFile("./02-write-file/text.txt", text, function (error) {
-        if (error) throw error; // если возникла ошибка
-        rl.close();
-    });
+process.on('exit', () => {
+    stdout.write('\nGood bye!\n');
 });
+process.on('SIGINT', () => process.exit());
