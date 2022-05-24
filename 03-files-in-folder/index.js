@@ -7,7 +7,6 @@ class DirInfo {
   constructor(dir = 'secret-folder') {
     this.dir = 'secret-folder';
     this.fullPath = path.join(__dirname, `${dir}`);
-    process.on('exit', () => process.stdout.write('\nGood Luck, Have Fun!'));
   }
   getDirInfo(fullPath = this.fullPath, subfolder = false) {
     fspr.readdir(fullPath, { withFileTypes: true }).then((files) => {
